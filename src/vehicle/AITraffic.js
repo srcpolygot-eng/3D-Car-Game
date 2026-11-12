@@ -58,7 +58,7 @@ export class AITraffic {
       this.physics.addBody(body);
 
       const f = this.track.getFrame(cfg.index, cfg.lateral);
-      mesh.root.position.copy(f.pos).addScaledVector(f.normal, 0.4);
+      mesh.root.position.copy(f.pos).addScaledVector(f.normal, 0.68);
       body.position.set(mesh.root.position.x, mesh.root.position.y, mesh.root.position.z);
 
       this.cars.push({
@@ -94,7 +94,7 @@ export class AITraffic {
       const fCurr = this.track.getFrame(car.index, car.currentLateral);
       const fAhead = this.track.getFrame((car.index + 4) % N, car.currentLateral);
 
-      const pos = fCurr.pos.clone().addScaledVector(fCurr.normal, 0.45);
+      const pos = fCurr.pos.clone().addScaledVector(fCurr.normal, 0.68);
       car.position.copy(pos);
 
       // Tangent direction

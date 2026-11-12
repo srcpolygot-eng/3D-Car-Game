@@ -29,6 +29,13 @@ export class MenuOverlay {
     this.cameraMode = 'Chase'; // Chase, Hood, Bumper, Orbit
     this.quality = 'high';
 
+    this._onKeyDown = (e) => {
+      if (!this.hasStarted && (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyW')) {
+        this.dismissStart();
+      }
+    };
+    window.addEventListener('keydown', this._onKeyDown);
+
     this._createStartScreen();
     this._createPauseScreen();
     this._createTopBar();
@@ -238,6 +245,7 @@ export class MenuOverlay {
   }
 
   dispose() {
+    window.removeEventListener('keydown', this._onKeyDown);
     this.root.remove();
   }
 }

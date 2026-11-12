@@ -484,6 +484,7 @@ export class CarController {
 
   /** World-space exhaust positions. */
   getExhaustWorld(out = []) {
+    this.mesh.root.updateMatrixWorld(true);
     this.mesh.exhaustPoints.forEach((p, i) => {
       out[i] = (out[i] || new THREE.Vector3()).copy(p);
       this.mesh.body.localToWorld(out[i]);

@@ -128,7 +128,7 @@ class SkidMarks {
     geo.setIndex(new THREE.BufferAttribute(idx, 1));
     geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e5);
     this.material = new THREE.ShaderMaterial({
-      transparent: true, depthWrite: false,
+      transparent: true, depthWrite: false, side: THREE.DoubleSide,
       polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4,
       vertexShader: `attribute float aAlpha; varying float vA; void main(){ vA = aAlpha; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);} `,
       fragmentShader: `varying float vA; void main(){ gl_FragColor = vec4(0.02,0.0,0.03, vA * 0.75); }`,
