@@ -172,7 +172,7 @@ class Game {
 
     // Initialize camera smoothly behind car
     const fwd = this.car.forward;
-    this.camCurrPos.copy(this.car.position).subScaledVector(fwd, 9).setY(this.car.position.y + 4.5);
+    this.camCurrPos.copy(this.car.position).addScaledVector(fwd, -9).setY(this.car.position.y + 4.5);
     this.camCurrLook.copy(this.car.position);
 
     if (fullReset) {
@@ -350,7 +350,7 @@ class Game {
 
       // Position behind car along heading, swinging out during drifts
       this.camTargetPos.copy(pPos)
-        .subScaledVector(pFwd, dist)
+        .addScaledVector(pFwd, -dist)
         .addScaledVector(pUp, height);
 
       // Look slightly ahead of the car
