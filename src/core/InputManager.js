@@ -31,6 +31,10 @@ export class InputManager {
     this.usingGamepad = false;
 
     this._onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) {
+        return;
+      }
       const a = KEYMAP[e.code];
       if (!a) return;
       if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();

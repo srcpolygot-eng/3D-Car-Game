@@ -3,7 +3,7 @@
  * graphics quality toggles, reset button, and controls overlay.
  */
 export class MenuOverlay {
-  constructor(container, { onStart, onResume, onRestart, onCameraChange, onQualityChange, onMuteToggle }) {
+  constructor(container, { onStart, onResume, onRestart, onCameraChange, onQualityChange, onMuteToggle, onToggleSandbox }) {
     this.container = container;
     this.onStart = onStart;
     this.onResume = onResume;
@@ -11,6 +11,7 @@ export class MenuOverlay {
     this.onCameraChange = onCameraChange;
     this.onQualityChange = onQualityChange;
     this.onMuteToggle = onMuteToggle;
+    this.onToggleSandbox = onToggleSandbox;
 
     this.root = document.createElement('div');
     this.root.id = 'menu-root';
@@ -30,6 +31,10 @@ export class MenuOverlay {
     this.quality = 'high';
 
     this._onKeyDown = (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) {
+        return;
+      }
       if (!this.hasStarted && (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyW')) {
         this.dismissStart();
       }
@@ -182,10 +187,18 @@ export class MenuOverlay {
       this.btnMute.textContent = isMuted ? 'AUDIO: OFF' : 'AUDIO: ON';
     });
 
+    // Sandbox button
+    this.btnSandbox = document.createElement('button');
+    this.btnSandbox.style.cssText = this._buttonStyle();
+    this.btnSandbox.style.borderColor = 'rgba(34, 243, 255, 0.55)';
+    this.btnSandbox.textContent = 'SANDBOX (~)';
+    this.btnSandbox.addEventListener('click', () => this.onToggleSandbox?.());
+
     this.topBar.appendChild(this.btnCam);
     this.topBar.appendChild(this.btnQuality);
     this.topBar.appendChild(this.btnReset);
     this.topBar.appendChild(this.btnMute);
+    this.topBar.appendChild(this.btnSandbox);
 
     this.root.appendChild(this.topBar);
   }

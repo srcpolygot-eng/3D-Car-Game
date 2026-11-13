@@ -12,6 +12,7 @@ import { ParticleSystem } from './vehicle/ParticleSystem.js';
 import { AITraffic } from './vehicle/AITraffic.js';
 import { HUD } from './ui/HUD.js';
 import { MenuOverlay } from './ui/MenuOverlay.js';
+import { SandboxConsole } from './ui/SandboxConsole.js';
 
 class Game {
   constructor() {
@@ -85,7 +86,11 @@ class Game {
         onMuteToggle: () => {
           return this.audio.toggleMute();
         },
+        onToggleSandbox: () => {
+          this.sandbox.toggle();
+        },
       });
+      this.sandbox = new SandboxConsole(this.uiRoot, this);
 
       // 5. Wire Events & Audio Feedback
       this._bindEvents();
@@ -242,6 +247,7 @@ class Game {
 
   render(frameDt, alpha) {
     this.gameTime += frameDt;
+    this.sandbox?.updateHooks(frameDt);
 
     // 1. Interpolate car visuals
     this.car.updateVisuals(frameDt, alpha, this.gameTime);
@@ -409,5 +415,6 @@ class Game {
 // Boot game when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   const game = new Game();
+  window.game = game;
   game.boot();
 });
